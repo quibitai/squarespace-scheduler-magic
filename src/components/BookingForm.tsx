@@ -21,7 +21,6 @@ const BookingForm: React.FC<BookingFormProps> = ({ onSuccess }) => {
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
   const [notes, setNotes] = useState("");
-  const [contactMethod, setContactMethod] = useState<"email" | "text" | null>(null);
   const [isLoading, setIsLoading] = useState(false);
   const { toast } = useToast();
 
@@ -83,9 +82,6 @@ const BookingForm: React.FC<BookingFormProps> = ({ onSuccess }) => {
     <Card className="w-full max-w-xl mx-auto border-0 shadow-none">
       <CardHeader className="px-0 pb-6">
         <h2 className="text-2xl font-normal">Book Your Appointment</h2>
-        <p className="text-muted-foreground">
-          Please complete the form below to secure your appointment.
-        </p>
       </CardHeader>
       <form onSubmit={handleSubmit}>
         <CardContent className="px-0 space-y-6">
@@ -116,40 +112,6 @@ const BookingForm: React.FC<BookingFormProps> = ({ onSuccess }) => {
                 className="border-input h-10 rounded-none"
                 required
               />
-            </div>
-          </div>
-          
-          <div className="space-y-2">
-            <Label className="text-sm font-normal">How do you prefer to be contacted?</Label>
-            <div className="flex flex-col gap-2 pt-1">
-              <div className="flex items-center space-x-2">
-                <Checkbox 
-                  id="contactEmail" 
-                  checked={contactMethod === "email"}
-                  onCheckedChange={() => setContactMethod("email")}
-                  className="rounded-none data-[state=checked]:bg-black data-[state=checked]:text-white"
-                />
-                <Label 
-                  htmlFor="contactEmail" 
-                  className="text-sm font-normal cursor-pointer"
-                >
-                  Email
-                </Label>
-              </div>
-              <div className="flex items-center space-x-2">
-                <Checkbox 
-                  id="contactText" 
-                  checked={contactMethod === "text"}
-                  onCheckedChange={() => setContactMethod("text")}
-                  className="rounded-none data-[state=checked]:bg-black data-[state=checked]:text-white"
-                />
-                <Label 
-                  htmlFor="contactText" 
-                  className="text-sm font-normal cursor-pointer"
-                >
-                  Text
-                </Label>
-              </div>
             </div>
           </div>
           
@@ -194,10 +156,11 @@ const BookingForm: React.FC<BookingFormProps> = ({ onSuccess }) => {
           </div>
         </CardContent>
         
-        <CardFooter className="px-0 pt-2">
+        <CardFooter className="px-0 pt-2 flex justify-center">
           <Button 
             type="submit" 
-            className="w-[120px] h-10 rounded-none bg-black text-white hover:bg-black/90"
+            variant="outline"
+            className="w-[120px] h-10 rounded-none border-black text-black hover:bg-black/5 uppercase"
             disabled={isLoading}
           >
             {isLoading ? "Booking..." : "Submit"}
