@@ -44,7 +44,10 @@ const Index = () => {
           </div>;
       case "form":
         return <div className="space-y-8">
-            <BookingForm onSuccess={() => handleBookingSuccess((document.getElementById("firstName") as HTMLInputElement)?.value + " " + (document.getElementById("lastName") as HTMLInputElement)?.value, (document.getElementById("email") as HTMLInputElement)?.value || "")} />
+            <BookingForm 
+              onSuccess={() => handleBookingSuccess((document.getElementById("firstName") as HTMLInputElement)?.value + " " + (document.getElementById("lastName") as HTMLInputElement)?.value, (document.getElementById("email") as HTMLInputElement)?.value || "")} 
+              onBack={() => setCurrentStep("calendar")}
+            />
           </div>;
       case "confirmation":
         return <BookingConfirmation name={clientName} email={clientEmail} onReset={handleReset} />;

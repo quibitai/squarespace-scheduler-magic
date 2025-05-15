@@ -1,3 +1,4 @@
+
 import React, { useState } from "react";
 import { useBooking } from "@/context/BookingContext";
 import { Button } from "@/components/ui/button";
@@ -8,12 +9,16 @@ import { Textarea } from "@/components/ui/textarea";
 import { formatDisplayDate } from "@/utils/dateUtils";
 import { generateConfirmationEmail, sendEmail } from "@/utils/emailUtils";
 import { useToast } from "@/hooks/use-toast";
-import { Checkbox } from "@/components/ui/checkbox";
+import { ArrowLeft } from "lucide-react";
+
 interface BookingFormProps {
   onSuccess: () => void;
+  onBack: () => void;
 }
+
 const BookingForm: React.FC<BookingFormProps> = ({
-  onSuccess
+  onSuccess,
+  onBack
 }) => {
   const {
     selectedDate,
@@ -28,9 +33,11 @@ const BookingForm: React.FC<BookingFormProps> = ({
   const {
     toast
   } = useToast();
+  
   if (!selectedDate || !selectedTimeSlot) {
     return null;
   }
+  
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!name || !email) {
@@ -68,10 +75,20 @@ const BookingForm: React.FC<BookingFormProps> = ({
       setIsLoading(false);
     }
   };
+  
   return <Card className="w-full max-w-xl mx-auto border-0 shadow-none">
       <CardHeader className="px-0 pb-6">
+        <div className="flex justify-start">
+          <Button 
+            variant="ghost" 
+            onClick={onBack} 
+            className="p-0 h-auto hover:bg-transparent"
+          >
+            <ArrowLeft className="h-5 w-5" />
+          </Button>
+        </div>
         <h2 className="text-2xl font-normal">
-      </h2>
+        </h2>
       </CardHeader>
       <form onSubmit={handleSubmit}>
         <CardContent className="px-0 space-y-6">
@@ -123,4 +140,5 @@ const BookingForm: React.FC<BookingFormProps> = ({
       </form>
     </Card>;
 };
+
 export default BookingForm;
