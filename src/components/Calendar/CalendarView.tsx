@@ -1,4 +1,3 @@
-
 import React from "react";
 import { Calendar } from "@/components/ui/calendar";
 import { Card, CardContent } from "@/components/ui/card";
@@ -45,7 +44,7 @@ const CalendarView: React.FC = () => {
             selected={selectedDate ? new Date(selectedDate) : undefined}
             onSelect={handleDateSelect}
             disabled={isDateDisabled}
-            className="rounded-md border shadow p-3 pointer-events-auto"
+            className="rounded-md border pointer-events-auto"
             fromDate={startDate}
             toDate={endDate}
             modifiers={{
