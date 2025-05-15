@@ -10,16 +10,13 @@ const CalendarView: React.FC = () => {
 
   const handleDateSelect = (date: Date | undefined) => {
     if (date) {
-      // Adjust for timezone to prevent date shift
-      const year = date.getFullYear();
-      const month = date.getMonth() + 1; // getMonth() is 0-indexed
-      const day = date.getDate();
-      const formattedDate = `${year}-${month.toString().padStart(2, '0')}-${day.toString().padStart(2, '0')}`;
-      setSelectedDate(formattedDate);
-      setSelectedTimeSlot(null); // Reset selected time slot when date changes
+      // Convert Date to string format expected by the context (YYYY-MM-DD)
+      const dateString = date.toISOString().split('T')[0];
+      setSelectedDate(dateString);
     } else {
       setSelectedDate(null);
     }
+    setSelectedTimeSlot(null); // Reset selected time slot when date changes
   };
 
   // Create date array for highlighting available dates in the calendar
