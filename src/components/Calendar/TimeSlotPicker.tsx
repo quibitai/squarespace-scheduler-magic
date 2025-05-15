@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { cn } from "@/lib/utils";
 import { Clock } from "lucide-react";
+import { format } from "date-fns";
 
 const TimeSlotPicker: React.FC = () => {
   const { availableDates, selectedDate, selectedTimeSlot, setSelectedTimeSlot } = useBooking();
@@ -12,8 +13,8 @@ const TimeSlotPicker: React.FC = () => {
     return null;
   }
 
-  // Convert the Date object to a string format (YYYY-MM-DD) for comparison
-  const dateString = selectedDate.toISOString().split('T')[0];
+  // Use date-fns to format the date as YYYY-MM-DD in local time
+  const dateString = format(selectedDate, 'yyyy-MM-dd');
   const selectedDateObj = availableDates.find(d => d.date === dateString);
 
   if (!selectedDateObj) {

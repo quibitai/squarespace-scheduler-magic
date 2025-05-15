@@ -9,6 +9,7 @@ import { formatDisplayDate } from "@/utils/dateUtils";
 import { generateConfirmationEmail, sendEmail } from "@/utils/emailUtils";
 import { useToast } from "@/hooks/use-toast";
 import { ArrowLeft } from "lucide-react";
+import { format } from "date-fns";
 
 interface BookingFormProps {
   onSuccess: () => void;
@@ -49,8 +50,8 @@ const BookingForm: React.FC<BookingFormProps> = ({
     }
     setIsLoading(true);
     try {
-      // Convert Date to string format for the bookSlot function
-      const dateString = selectedDate.toISOString().split('T')[0];
+      // Use date-fns to format the date as YYYY-MM-DD in local time
+      const dateString = format(selectedDate, 'yyyy-MM-dd');
       // Book the slot
       const success = await bookSlot(dateString, selectedTimeSlot.id, email, name);
       if (success) {
@@ -128,7 +129,7 @@ const BookingForm: React.FC<BookingFormProps> = ({
 
           <div className="bg-muted px-4 py-3 space-y-2">
             <p className="text-sm font-medium">Appointment Details:</p>
-            <p className="text-sm">Date: {formatDisplayDate(selectedDate.toISOString().split('T')[0])}</p>
+            <p className="text-sm">Date: {formatDisplayDate(format(selectedDate, 'yyyy-MM-dd'))}</p>
             <p className="text-sm">Time: {selectedTimeSlot.time}</p>
           </div>
         </CardContent>

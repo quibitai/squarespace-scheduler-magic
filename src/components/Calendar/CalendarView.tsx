@@ -3,6 +3,7 @@ import { Calendar } from "@/components/ui/calendar";
 import { Card, CardContent } from "@/components/ui/card";
 import { useBooking } from "@/context/BookingContext";
 import { formatDisplayDate, isPastDate, getDateRange } from "@/utils/dateUtils";
+import { format, parse } from "date-fns";
 
 const CalendarView: React.FC = () => {
   const { availableDates, selectedDate, setSelectedDate, setSelectedTimeSlot } = useBooking();
@@ -20,11 +21,11 @@ const CalendarView: React.FC = () => {
   // Create date array for highlighting available dates in the calendar
   const availableDateArray = availableDates
     .filter(dateObj => !isPastDate(dateObj.date) && dateObj.timeSlots.some(slot => slot.isAvailable))
-    .map(dateObj => new Date(dateObj.date));
+    .map(dateObj => parse(dateObj.date, 'yyyy-MM-dd', new Date()));
 
   // Function to determine if a date should be disabled in the calendar
   const isDateDisabled = (date: Date) => {
-    const formattedDate = date.toISOString().split('T')[0];
+    const formattedDate = format(date, 'yyyy-MM-dd');
     const dateObj = availableDates.find(d => d.date === formattedDate);
     
     // Disable if date is in the past or has no available slots
@@ -60,7 +61,7 @@ const CalendarView: React.FC = () => {
         </div>
         {selectedDate && (
           <p className="text-center mt-4">
-            Selected: <span className="font-semibold">{formatDisplayDate(selectedDate.toISOString().split('T')[0])}</span>
+            Selected: <span className="font-semibold">{formatDisplayDate(format(selectedDate, 'yyyy-MM-dd'))}</span>
           </p>
         )}
       </CardContent>

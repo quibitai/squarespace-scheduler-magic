@@ -1,15 +1,14 @@
-
 import { format, parse, isValid, addMonths } from "date-fns";
 
 // Format date for display
 export const formatDisplayDate = (dateString: string) => {
-  const date = new Date(dateString);
+  const date = parse(dateString, "yyyy-MM-dd", new Date());
   return isValid(date) ? format(date, "MMMM d, yyyy") : "Invalid date";
 };
 
 // Format date for input fields
 export const formatInputDate = (dateString: string) => {
-  const date = new Date(dateString);
+  const date = parse(dateString, "yyyy-MM-dd", new Date());
   return isValid(date) ? format(date, "yyyy-MM-dd") : "";
 };
 
@@ -22,14 +21,15 @@ export const getCurrentDate = () => {
 export const isPastDate = (dateString: string) => {
   const today = new Date();
   today.setHours(0, 0, 0, 0);
-  const date = new Date(dateString);
+  const date = parse(dateString, "yyyy-MM-dd", new Date());
   return date < today;
 };
 
 // Get date range for calendar display
 export const getDateRange = () => {
-  const startDate = new Date();
-  const endDate = addMonths(startDate, 3); // Show 3 months in advance
+  const today = new Date();
+  const startDate = today;
+  const endDate = addMonths(today, 2);
   return { startDate, endDate };
 };
 
