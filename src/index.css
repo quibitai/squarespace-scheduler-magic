@@ -97,3 +97,8 @@
     @apply font-medium tracking-tight;
   }
 }
+
+/* Ensure selected day in calendar is always white text */
+.day_selected, .rdp-day_selected, .rdp-day[aria-selected="true"] {
+  color: #fff !important;
+}
