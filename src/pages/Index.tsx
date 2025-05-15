@@ -1,4 +1,3 @@
-
 import React, { useState } from "react";
 import CalendarView from "@/components/Calendar/CalendarView";
 import TimeSlotPicker from "@/components/Calendar/TimeSlotPicker";
@@ -65,6 +64,9 @@ const Index = () => {
 
           <div className="mt-16 text-sm text-muted-foreground">
             <p>Need help? Contact us directly at help@example.com</p>
+            <p className="mt-2">
+              <a href="/admin" className="underline text-blue-600 hover:text-blue-800">Go to Admin (testing)</a>
+            </p>
           </div>
         </div>
       </div>
