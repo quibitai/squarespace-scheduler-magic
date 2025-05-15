@@ -1,4 +1,3 @@
-
 import React, { useState } from "react";
 import { 
   Card, 
@@ -220,26 +219,6 @@ const SettingsManager: React.FC = () => {
               </div>
             </form>
           </Form>
-        </CardContent>
-      </Card>
-      
-      <Card>
-        <CardHeader>
-          <CardTitle>Advanced Settings</CardTitle>
-          <CardDescription>Additional configuration options</CardDescription>
-        </CardHeader>
-        <CardContent>
-          <div className="space-y-2">
-            <Button variant="outline" className="w-full justify-start">
-              Export Booking Data
-            </Button>
-            <Button variant="outline" className="w-full justify-start">
-              Clear All Bookings
-            </Button>
-            <Button variant="outline" className="w-full justify-start">
-              System Maintenance
-            </Button>
-          </div>
         </CardContent>
       </Card>
     </div>
