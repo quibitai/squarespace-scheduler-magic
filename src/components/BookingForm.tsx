@@ -2,12 +2,14 @@
 import React, { useState } from "react";
 import { useBooking } from "@/context/BookingContext";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardContent, CardFooter, CardHeader } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { Textarea } from "@/components/ui/textarea";
 import { formatDisplayDate } from "@/utils/dateUtils";
 import { generateConfirmationEmail, sendEmail } from "@/utils/emailUtils";
 import { useToast } from "@/hooks/use-toast";
+import { Checkbox } from "@/components/ui/checkbox";
 
 interface BookingFormProps {
   onSuccess: () => void;
@@ -18,6 +20,8 @@ const BookingForm: React.FC<BookingFormProps> = ({ onSuccess }) => {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
+  const [notes, setNotes] = useState("");
+  const [contactMethod, setContactMethod] = useState<"email" | "text" | null>(null);
   const [isLoading, setIsLoading] = useState(false);
   const { toast } = useToast();
 
@@ -76,60 +80,127 @@ const BookingForm: React.FC<BookingFormProps> = ({ onSuccess }) => {
   };
 
   return (
-    <Card className="w-full max-w-md mx-auto mt-4">
-      <CardHeader>
-        <CardTitle className="text-xl font-semibold text-center">Complete Your Booking</CardTitle>
+    <Card className="w-full max-w-xl mx-auto border-0 shadow-none">
+      <CardHeader className="px-0 pb-6">
+        <h2 className="text-2xl font-normal">Book Your Appointment</h2>
+        <p className="text-muted-foreground">
+          Please complete the form below to secure your appointment.
+        </p>
       </CardHeader>
       <form onSubmit={handleSubmit}>
-        <CardContent className="space-y-4">
-          <div className="space-y-2">
-            <Label htmlFor="name">Full Name</Label>
-            <Input 
-              id="name" 
-              value={name} 
-              onChange={(e) => setName(e.target.value)} 
-              placeholder="Enter your full name"
-              required
-            />
+        <CardContent className="px-0 space-y-6">
+          <div className="grid grid-cols-2 gap-6">
+            <div className="space-y-2">
+              <Label htmlFor="firstName" className="text-sm font-normal">First Name</Label>
+              <Input 
+                id="firstName" 
+                value={name.split(' ')[0] || ''} 
+                onChange={(e) => {
+                  const firstName = e.target.value;
+                  const lastName = name.includes(' ') ? name.split(' ').slice(1).join(' ') : '';
+                  setName(`${firstName} ${lastName}`.trim());
+                }} 
+                className="border-input h-10 rounded-none"
+                required
+              />
+            </div>
+            <div className="space-y-2">
+              <Label htmlFor="lastName" className="text-sm font-normal">Last Name</Label>
+              <Input 
+                id="lastName" 
+                value={name.includes(' ') ? name.split(' ').slice(1).join(' ') : ''} 
+                onChange={(e) => {
+                  const firstName = name.split(' ')[0] || '';
+                  setName(`${firstName} ${e.target.value}`.trim());
+                }} 
+                className="border-input h-10 rounded-none"
+                required
+              />
+            </div>
           </div>
           
           <div className="space-y-2">
-            <Label htmlFor="email">Email Address</Label>
+            <Label className="text-sm font-normal">How do you prefer to be contacted?</Label>
+            <div className="flex flex-col gap-2 pt-1">
+              <div className="flex items-center space-x-2">
+                <Checkbox 
+                  id="contactEmail" 
+                  checked={contactMethod === "email"}
+                  onCheckedChange={() => setContactMethod("email")}
+                  className="rounded-none data-[state=checked]:bg-black data-[state=checked]:text-white"
+                />
+                <Label 
+                  htmlFor="contactEmail" 
+                  className="text-sm font-normal cursor-pointer"
+                >
+                  Email
+                </Label>
+              </div>
+              <div className="flex items-center space-x-2">
+                <Checkbox 
+                  id="contactText" 
+                  checked={contactMethod === "text"}
+                  onCheckedChange={() => setContactMethod("text")}
+                  className="rounded-none data-[state=checked]:bg-black data-[state=checked]:text-white"
+                />
+                <Label 
+                  htmlFor="contactText" 
+                  className="text-sm font-normal cursor-pointer"
+                >
+                  Text
+                </Label>
+              </div>
+            </div>
+          </div>
+          
+          <div className="space-y-2">
+            <Label htmlFor="email" className="text-sm font-normal">Email Address</Label>
             <Input 
               id="email" 
               type="email" 
               value={email} 
               onChange={(e) => setEmail(e.target.value)} 
-              placeholder="Enter your email address"
+              className="border-input h-10 rounded-none"
               required
             />
           </div>
           
           <div className="space-y-2">
-            <Label htmlFor="phone">Phone Number (Optional)</Label>
+            <Label htmlFor="phone" className="text-sm font-normal">Phone Number</Label>
             <Input 
               id="phone" 
               type="tel" 
               value={phone} 
               onChange={(e) => setPhone(e.target.value)} 
-              placeholder="Enter your phone number"
+              className="border-input h-10 rounded-none"
             />
           </div>
 
-          <div className="bg-muted p-4 rounded-md space-y-2">
+          <div className="space-y-2">
+            <Label htmlFor="notes" className="text-sm font-normal">Additional Notes</Label>
+            <Textarea
+              id="notes"
+              value={notes}
+              onChange={(e) => setNotes(e.target.value)}
+              className="border-input min-h-[100px] rounded-none resize-none"
+              placeholder="Anything else you think we should know?"
+            />
+          </div>
+
+          <div className="bg-muted px-4 py-3 space-y-2">
             <p className="text-sm font-medium">Appointment Details:</p>
             <p className="text-sm">Date: {formatDisplayDate(selectedDate)}</p>
             <p className="text-sm">Time: {selectedTimeSlot.time}</p>
           </div>
         </CardContent>
         
-        <CardFooter>
+        <CardFooter className="px-0 pt-2">
           <Button 
             type="submit" 
-            className="w-full" 
+            className="w-[120px] h-10 rounded-none bg-black text-white hover:bg-black/90"
             disabled={isLoading}
           >
-            {isLoading ? "Booking..." : "Confirm Booking"}
+            {isLoading ? "Booking..." : "Submit"}
           </Button>
         </CardFooter>
       </form>

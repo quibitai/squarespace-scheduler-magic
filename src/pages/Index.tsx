@@ -29,33 +29,41 @@ const Index = () => {
     switch (currentStep) {
       case "calendar":
         return (
-          <>
+          <div className="space-y-8">
             <CalendarView />
             <TimeSlotPicker />
             {selectedDate && selectedTimeSlot && (
-              <div className="flex justify-center mt-4">
-                <Button onClick={() => setCurrentStep("form")}>
-                  Continue to Booking
+              <div className="flex justify-start mt-6">
+                <Button 
+                  onClick={() => setCurrentStep("form")}
+                  className="rounded-none bg-black text-white hover:bg-black/90"
+                >
+                  Continue
                 </Button>
               </div>
             )}
-          </>
+          </div>
         );
       case "form":
         return (
-          <>
+          <div className="space-y-8">
             <BookingForm 
               onSuccess={() => handleBookingSuccess(
-                (document.getElementById("name") as HTMLInputElement)?.value || "",
+                (document.getElementById("firstName") as HTMLInputElement)?.value + " " + 
+                (document.getElementById("lastName") as HTMLInputElement)?.value,
                 (document.getElementById("email") as HTMLInputElement)?.value || ""
               )} 
             />
-            <div className="flex justify-center mt-4">
-              <Button variant="outline" onClick={() => setCurrentStep("calendar")}>
-                Back to Calendar
+            <div className="flex justify-start mt-6">
+              <Button 
+                variant="outline" 
+                onClick={() => setCurrentStep("calendar")}
+                className="rounded-none border-black text-black hover:bg-black/5"
+              >
+                Back
               </Button>
             </div>
-          </>
+          </div>
         );
       case "confirmation":
         return (
@@ -69,19 +77,21 @@ const Index = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 py-12">
-      <div className="container mx-auto px-4">
+    <div className="min-h-screen bg-background py-12 md:py-16">
+      <div className="container max-w-5xl px-4 md:px-6">
         <div className="max-w-3xl mx-auto">
-          <div className="text-center mb-8">
-            <h1 className="text-3xl font-bold text-gray-900">Book Your Appointment</h1>
-            <p className="mt-2 text-lg text-gray-600">
-              Select an available date and time that works for you.
-            </p>
-          </div>
+          {currentStep !== "confirmation" && (
+            <div className="mb-12">
+              <h1 className="text-3xl font-normal mb-3">Book Your Appointment</h1>
+              <p className="text-muted-foreground">
+                Select an available date and time that works for you.
+              </p>
+            </div>
+          )}
 
           {renderStep()}
 
-          <div className="mt-12 text-center text-sm text-gray-500">
+          <div className="mt-16 text-sm text-muted-foreground">
             <p>Need help? Contact us directly at help@example.com</p>
           </div>
         </div>

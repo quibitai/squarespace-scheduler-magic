@@ -2,9 +2,9 @@
 import React from "react";
 import { useBooking } from "@/context/BookingContext";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardContent, CardFooter, CardHeader } from "@/components/ui/card";
 import { formatDisplayDate } from "@/utils/dateUtils";
-import { CalendarCheck } from "lucide-react";
+import { CheckCircle } from "lucide-react";
 
 interface BookingConfirmationProps {
   name: string;
@@ -24,42 +24,40 @@ const BookingConfirmation: React.FC<BookingConfirmationProps> = ({
   }
 
   return (
-    <Card className="w-full max-w-md mx-auto mt-4">
-      <CardHeader className="text-center">
+    <Card className="w-full max-w-xl mx-auto border-0 shadow-none">
+      <CardHeader className="px-0">
         <div className="flex justify-center mb-4">
-          <div className="bg-primary/10 p-3 rounded-full">
-            <CalendarCheck className="h-12 w-12 text-primary" />
+          <div className="bg-black/5 p-3 rounded-full">
+            <CheckCircle className="h-12 w-12 text-black" />
           </div>
         </div>
-        <CardTitle className="text-xl">Booking Confirmed!</CardTitle>
+        <h2 className="text-2xl font-normal text-center">Appointment Confirmed</h2>
       </CardHeader>
       
-      <CardContent className="space-y-4">
-        <div className="border-b pb-4 text-center">
+      <CardContent className="px-0 space-y-6">
+        <div className="border-b border-border pb-4 text-center">
           <p className="text-muted-foreground">A confirmation email has been sent to:</p>
           <p className="font-medium">{email}</p>
         </div>
         
         <div className="space-y-2">
-          <h3 className="font-semibold">Appointment Details:</h3>
+          <h3 className="font-medium">Appointment Details:</h3>
           <p>Name: {name}</p>
           <p>Date: {formatDisplayDate(selectedDate)}</p>
           <p>Time: {selectedTimeSlot.time}</p>
         </div>
         
-        <div className="bg-muted p-4 rounded-md">
+        <div className="bg-muted p-4">
           <p className="text-sm">
-            Need to make changes? Contact us directly or click the button below 
-            to schedule another appointment.
+            Need to make changes? Contact us directly or book another appointment below.
           </p>
         </div>
       </CardContent>
       
-      <CardFooter>
+      <CardFooter className="px-0 pt-4">
         <Button 
-          variant="outline" 
           onClick={onReset} 
-          className="w-full"
+          className="rounded-none bg-black text-white hover:bg-black/90 min-w-[220px]"
         >
           Book Another Appointment
         </Button>
