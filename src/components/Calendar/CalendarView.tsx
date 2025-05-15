@@ -9,16 +9,17 @@ const CalendarView: React.FC = () => {
   const { startDate, endDate } = getDateRange();
 
   const handleDateSelect = (date: Date | undefined) => {
-    // First update the Date object in state
-    if (!date) {
+    if (date) {
+      // Adjust for timezone to prevent date shift
+      const year = date.getFullYear();
+      const month = date.getMonth() + 1; // getMonth() is 0-indexed
+      const day = date.getDate();
+      const formattedDate = `${year}-${month.toString().padStart(2, '0')}-${day.toString().padStart(2, '0')}`;
+      setSelectedDate(formattedDate);
+      setSelectedTimeSlot(null); // Reset selected time slot when date changes
+    } else {
       setSelectedDate(null);
-      return;
     }
-    
-    // Then format it for the API using the same method as admin panel
-    const dateString = date.toISOString().split('T')[0];
-    setSelectedDate(dateString);
-    setSelectedTimeSlot(null); // Reset selected time slot when date changes
   };
 
   // Create date array for highlighting available dates in the calendar
