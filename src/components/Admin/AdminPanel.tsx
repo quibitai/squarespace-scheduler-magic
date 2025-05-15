@@ -4,6 +4,7 @@ import SlotManager from "./SlotManager";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { useBooking } from "@/context/BookingContext";
+import SettingsManager from "./SettingsManager";
 
 const AdminPanel: React.FC = () => {
   const { availableDates } = useBooking();
@@ -64,22 +65,7 @@ const AdminPanel: React.FC = () => {
           <SlotManager />
         </TabsContent>
         <TabsContent value="settings">
-          <Card>
-            <CardHeader>
-              <CardTitle>System Settings</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <p className="text-muted-foreground">
-                Settings functionality would be implemented here, such as:
-              </p>
-              <ul className="list-disc list-inside mt-2 text-muted-foreground">
-                <li>Email templates configuration</li>
-                <li>Time slot duration settings</li>
-                <li>Business hours configuration</li>
-                <li>Integration with Squarespace settings</li>
-              </ul>
-            </CardContent>
-          </Card>
+          <SettingsManager />
         </TabsContent>
       </Tabs>
     </div>
