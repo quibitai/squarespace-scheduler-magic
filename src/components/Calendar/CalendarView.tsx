@@ -9,8 +9,18 @@ const CalendarView: React.FC = () => {
   const { startDate, endDate } = getDateRange();
 
   const handleDateSelect = (date: Date | undefined) => {
-    setSelectedDate(date ?? null);
-    setSelectedTimeSlot(null); // Reset selected time slot when date changes
+    if (date) {
+      // Adjust for timezone to prevent date shift
+      const year = date.getFullYear();
+      const month = date.getMonth() + 1; // getMonth() is 0-indexed
+      const day = date.getDate();
+      const formattedDate = `${year}-${month.toString().padStart(2, '0')}-${day.toString().padStart(2, '0')}`;
+      console.log('Selected date:', date, 'Formatted as:', formattedDate);
+      setSelectedDate(formattedDate);
+      setSelectedTimeSlot(null); // Reset selected time slot when date changes
+    } else {
+      setSelectedDate(null);
+    }
   };
 
   // Create date array for highlighting available dates in the calendar
@@ -36,7 +46,7 @@ const CalendarView: React.FC = () => {
         <div className="flex justify-center">
           <Calendar
             mode="single"
-            selected={selectedDate ?? undefined}
+            selected={selectedDate ? new Date(selectedDate) : undefined}
             onSelect={handleDateSelect}
             disabled={isDateDisabled}
             className="rounded-md border pointer-events-auto"
@@ -56,7 +66,7 @@ const CalendarView: React.FC = () => {
         </div>
         {selectedDate && (
           <p className="text-center mt-4">
-            Selected: <span className="font-semibold">{formatDisplayDate(selectedDate.toISOString().split('T')[0])}</span>
+            Selected: <span className="font-semibold">{formatDisplayDate(selectedDate)}</span>
           </p>
         )}
       </CardContent>
