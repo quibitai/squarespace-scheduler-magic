@@ -1,4 +1,3 @@
-
 import React, { createContext, useState, useContext, ReactNode } from "react";
 
 export interface TimeSlot {
@@ -15,8 +14,8 @@ export interface AppointmentDate {
 interface BookingContextType {
   availableDates: AppointmentDate[];
   setAvailableDates: React.Dispatch<React.SetStateAction<AppointmentDate[]>>;
-  selectedDate: string | null;
-  setSelectedDate: React.Dispatch<React.SetStateAction<string | null>>;
+  selectedDate: Date | null;
+  setSelectedDate: React.Dispatch<React.SetStateAction<Date | null>>;
   selectedTimeSlot: TimeSlot | null;
   setSelectedTimeSlot: React.Dispatch<React.SetStateAction<TimeSlot | null>>;
   bookSlot: (date: string, slotId: string, clientEmail: string, clientName: string) => Promise<boolean>;
@@ -61,7 +60,7 @@ const sampleDates: AppointmentDate[] = [
 
 export const BookingProvider: React.FC<{children: ReactNode}> = ({ children }) => {
   const [availableDates, setAvailableDates] = useState<AppointmentDate[]>(sampleDates);
-  const [selectedDate, setSelectedDate] = useState<string | null>(null);
+  const [selectedDate, setSelectedDate] = useState<Date | null>(null);
   const [selectedTimeSlot, setSelectedTimeSlot] = useState<TimeSlot | null>(null);
 
   const bookSlot = async (date: string, slotId: string, clientEmail: string, clientName: string) => {

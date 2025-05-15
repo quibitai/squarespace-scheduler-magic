@@ -1,4 +1,3 @@
-
 import React from "react";
 import { useBooking } from "@/context/BookingContext";
 import { Button } from "@/components/ui/button";
@@ -12,8 +11,8 @@ const TimeSlotPicker: React.FC = () => {
   if (!selectedDate) {
     return null;
   }
-
-  const selectedDateObj = availableDates.find(d => d.date === selectedDate);
+  const selectedDateStr = selectedDate.toISOString().split('T')[0];
+  const selectedDateObj = availableDates.find(d => d.date === selectedDateStr);
 
   if (!selectedDateObj) {
     return (
