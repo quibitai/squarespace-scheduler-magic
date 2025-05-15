@@ -31,7 +31,6 @@ const settingsFormSchema = z.object({
   slotDuration: z.string().min(1, "Slot duration is required"),
   businessHoursStart: z.string().min(1, "Business hours start is required"),
   businessHoursEnd: z.string().min(1, "Business hours end is required"),
-  squarespaceApiKey: z.string().optional(),
 });
 
 type SettingsFormValues = z.infer<typeof settingsFormSchema>;
@@ -43,7 +42,6 @@ const defaultSettings: SettingsFormValues = {
   slotDuration: "60",
   businessHoursStart: "09:00",
   businessHoursEnd: "17:00",
-  squarespaceApiKey: "",
 };
 
 const SettingsManager: React.FC = () => {
@@ -186,23 +184,6 @@ const SettingsManager: React.FC = () => {
                     </FormControl>
                     <FormDescription>
                       Use placeholders: {'{businessName}'}, {'{date}'}, {'{time}'}, {'{customerName}'}, {'{customerEmail}'}
-                    </FormDescription>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              
-              <FormField
-                control={form.control}
-                name="squarespaceApiKey"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Squarespace API Key (Optional)</FormLabel>
-                    <FormControl>
-                      <Input {...field} type="password" />
-                    </FormControl>
-                    <FormDescription>
-                      For Squarespace integration
                     </FormDescription>
                     <FormMessage />
                   </FormItem>
