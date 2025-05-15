@@ -1,4 +1,3 @@
-
 import React, { useState } from "react";
 import { useBooking } from "@/context/BookingContext";
 import { Button } from "@/components/ui/button";
@@ -50,11 +49,13 @@ const BookingForm: React.FC<BookingFormProps> = ({
     }
     setIsLoading(true);
     try {
+      // Convert Date to string format for the bookSlot function
+      const dateString = selectedDate.toISOString().split('T')[0];
       // Book the slot
-      const success = await bookSlot(selectedDate, selectedTimeSlot.id, email, name);
+      const success = await bookSlot(dateString, selectedTimeSlot.id, email, name);
       if (success) {
         // Send confirmation email
-        const emailData = generateConfirmationEmail(name, formatDisplayDate(selectedDate), selectedTimeSlot.time, email);
+        const emailData = generateConfirmationEmail(name, formatDisplayDate(dateString), selectedTimeSlot.time, email);
         await sendEmail(emailData);
         toast({
           title: "Booking successful!",
@@ -127,7 +128,7 @@ const BookingForm: React.FC<BookingFormProps> = ({
 
           <div className="bg-muted px-4 py-3 space-y-2">
             <p className="text-sm font-medium">Appointment Details:</p>
-            <p className="text-sm">Date: {formatDisplayDate(selectedDate)}</p>
+            <p className="text-sm">Date: {formatDisplayDate(selectedDate.toISOString().split('T')[0])}</p>
             <p className="text-sm">Time: {selectedTimeSlot.time}</p>
           </div>
         </CardContent>

@@ -11,8 +11,10 @@ const TimeSlotPicker: React.FC = () => {
   if (!selectedDate) {
     return null;
   }
-  const selectedDateStr = selectedDate.toISOString().split('T')[0];
-  const selectedDateObj = availableDates.find(d => d.date === selectedDateStr);
+
+  // Convert the Date object to a string format (YYYY-MM-DD) for comparison
+  const dateString = selectedDate.toISOString().split('T')[0];
+  const selectedDateObj = availableDates.find(d => d.date === dateString);
 
   if (!selectedDateObj) {
     return (
